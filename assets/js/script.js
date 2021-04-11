@@ -1,50 +1,60 @@
 // simplifications 
 var body = document.body;
-// variables 
 
+// variables 
 var scoreCount = 0;
 var timeCount = 0;
 var questionNumber = 1;
+
 // page elements 
 var titleEl = document.createElement('h1');
 var mathQuestionEl = document.createElement('h2');
 var timerEl = document.createElement('h3');
 var playerName = document.createElement('input')
-var startBtn = document.createElement("button");
-var highScoresBtn = document.createElement("button");
-var saveBtn = document.createElement("button");
 var aBtn = document.createElement("button");
 var bBtn = document.createElement("button");
 var cBtn = document.createElement("button");
 var dBtn = document.createElement("button");
+var startBtn = document.createElement("button");
+var highScoresBtn = document.createElement("button");
 
 // attributes 
 titleEl.setAttribute('style', 'text-align: center');
+playerName.setAttribute('type', 'text', 'id', 'user');
 aBtn.setAttribute('id', 'a');
 bBtn.setAttribute('id', 'b');
 cBtn.setAttribute('id', 'c');
 dBtn.setAttribute('id', 'd');
-highScoresBtn.setAttribute('id', 'highscore');
 startBtn.setAttribute('id', 'start');
+highScoresBtn.setAttribute('id', 'highscore');
 
-saveBtn.innerHTML = "SAVE"
 // text content 
 startBtn.innerHTML = "START";
 titleEl.textContent = "START HERE --->";
-
 
 // append to page 
 body.appendChild(timerEl);
 body.appendChild(titleEl);
 titleEl.appendChild(startBtn);
+body.appendChild(mathQuestionEl);
+body.appendChild(playerName);
+body.appendChild(aBtn);
+body.appendChild(bBtn);
+body.appendChild(cBtn);
+body.appendChild(dBtn);
 
+// add hide class 
 
-
-
+aBtn.classList.add("hide");
+bBtn.classList.add("hide");
+cBtn.classList.add("hide");
+dBtn.classList.add("hide");
+playerName.classList.add("hide");
 // functions 
 
 var questionEl = function () {
     titleEl.textContent = "Question " + questionNumber;
+
     timerGame()
     randomMath()
     startQuiz.classList.add("hide")
@@ -93,11 +103,11 @@ var randomMath = function () {
     bBtn.innerHTML = validAnswer + 1;
     cBtn.innerHTML = validAnswer - 1;
     dBtn.innerHTML = validAnswer + 3;
-    body.appendChild(mathQuestionEl);
-    body.appendChild(aBtn);
-    body.appendChild(bBtn);
-    body.appendChild(cBtn);
-    body.appendChild(dBtn);
+    aBtn.classList.remove("hide");
+    bBtn.classList.remove("hide");
+    dBtn.classList.remove("hide");
+    cBtn.classList.remove("hide");
+
 
 }
 
@@ -118,32 +128,45 @@ var answerWrong = function () {
 var endGame = function () {
     titleEl.textContent = "GAMEOVER"
     mathQuestionEl.textContent = "SCORE: " + scoreCount;
-    // TODO: make a prompt box to make a userName
-    playerName.setAttribute('type', 'text', 'id', 'userName');
-    body.appendChild(playerName);
-    playerName.appendChild(saveBtn)
-    //  var saveScore = localStorage.setItem(userName,scoreCount);
-    //  console.log(saveScore);
-    body.removeChild(aBtn);
-    body.removeChild(bBtn);
-    body.removeChild(cBtn);
-    body.removeChild(dBtn);
-    highScoresBtn.innerHTML = "HIGHSCORES"
+
+    aBtn.classList.add("hide");
+    bBtn.classList.add("hide");
+    cBtn.classList.add("hide");
+    dBtn.classList.add("hide");
+
+    playerName.classList.remove("hide");
+
+    highScoresBtn.innerHTML = "SAVE"
     body.appendChild(highScoresBtn);
     var highScores = document.querySelector("#highscore");
     highScores.classList.remove("hide");
     highScores.addEventListener('click', function () {
-        questionNumber = 1;
-        scoreCount = 0;
-        titleEl.textContent = "HIGHSCORES";
-        mathQuestionEl.textContent = "HALL OF FAME:"
+        // TODO: save the input in the bax as var userName
+        var userName = document.getElementById("user");
+        //  var saveScore = localStorage.setItem(userName,scoreCount);
+        //  console.log(saveScore);
+        console.log(userName);
         highScores.classList.add("hide");
-        startQuiz.classList.remove("hide");
-        startQuiz.textContent = "PLAY AGAIN"
-        body.appendChild(startBtn);
-    })
+        scoreScreen();
+    });
 
-}
+
+
+};
+
+var scoreScreen = function () {
+
+    questionNumber = 1;
+    scoreCount = 0;
+    titleEl.textContent = "HIGHSCORES";
+    mathQuestionEl.textContent = "HALL OF FAME:"
+    playerName.classList.add("hide");
+
+
+    startQuiz.classList.remove("hide");
+    startQuiz.textContent = "AGAIN?"
+    body.appendChild(startBtn);
+};
 
 // target the thing we are clicking on 
 var startQuiz = document.querySelector("#start");
