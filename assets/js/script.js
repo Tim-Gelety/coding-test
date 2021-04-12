@@ -6,10 +6,14 @@ var scoreCount = 0;
 var timeCount = 0;
 var questionNumber = 1;
 
+
+var scores = [];
+
 // page elements 
 var titleEl = document.createElement('h1');
 var mathQuestionEl = document.createElement('h2');
 var timerEl = document.createElement('h3');
+var highScoresEl = document.createElement('ol');
 var playerName = document.createElement('input')
 var aBtn = document.createElement("button");
 var bBtn = document.createElement("button");
@@ -20,7 +24,9 @@ var highScoresBtn = document.createElement("button");
 
 // attributes 
 titleEl.setAttribute('style', 'text-align: center');
-playerName.setAttribute('type', 'text', 'id', 'user');
+playerName.setAttribute('type', 'text');
+playerName.setAttribute('id', 'user');
+highScoresEl.setAttribute('id', 'highScores');
 aBtn.setAttribute('id', 'a');
 bBtn.setAttribute('id', 'b');
 cBtn.setAttribute('id', 'c');
@@ -38,6 +44,7 @@ body.appendChild(titleEl);
 titleEl.appendChild(startBtn);
 body.appendChild(mathQuestionEl);
 body.appendChild(playerName);
+body.appendChild(highScoresEl);
 body.appendChild(aBtn);
 body.appendChild(bBtn);
 body.appendChild(cBtn);
@@ -50,11 +57,12 @@ bBtn.classList.add("hide");
 cBtn.classList.add("hide");
 dBtn.classList.add("hide");
 playerName.classList.add("hide");
+highScoresEl.classList.add("hide");
 // functions 
 
 var questionEl = function () {
     titleEl.textContent = "Question " + questionNumber;
-
+    highScoresEl.classList.add("hide");
     timerGame()
     randomMath()
     startQuiz.classList.add("hide")
@@ -142,10 +150,7 @@ var endGame = function () {
     highScores.classList.remove("hide");
     highScores.addEventListener('click', function () {
         // TODO: save the input in the bax as var userName
-        var userName = document.getElementById("user");
-        //  var saveScore = localStorage.setItem(userName,scoreCount);
-        //  console.log(saveScore);
-        console.log(userName);
+        
         highScores.classList.add("hide");
         scoreScreen();
     });
@@ -161,10 +166,11 @@ var scoreScreen = function () {
     titleEl.textContent = "HIGHSCORES";
     mathQuestionEl.textContent = "HALL OF FAME:"
     playerName.classList.add("hide");
-
-
     startQuiz.classList.remove("hide");
-    startQuiz.textContent = "AGAIN?"
+    highScoresEl.classList.remove("hide");
+    
+
+    startQuiz.textContent = "AGAIN?";
     body.appendChild(startBtn);
 };
 
@@ -172,3 +178,10 @@ var scoreScreen = function () {
 var startQuiz = document.querySelector("#start");
 // click it to change the html elements
 startQuiz.addEventListener('click', questionEl);
+
+// make a list 
+scores.forEach(function (scores) {
+    var li = document.createElement('li');
+    li.textContent = scores;
+    highScoresEl.appendChild(li);
+});
